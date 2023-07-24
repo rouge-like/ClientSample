@@ -13,8 +13,8 @@ public class MapManager
 
     public void Init()
     {
-        _lenX = 10;
-        _lenY = 10;
+        _lenX = 100;
+        _lenY = 200;
         _map = new int[_lenX, _lenY];
 
         _objs = new Dictionary<int, Vector3Int>();

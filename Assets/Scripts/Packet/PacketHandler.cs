@@ -36,9 +36,10 @@ class PacketHandler
 		S_Despawn despawnPacket = packet as S_Despawn;
 		ServerSession serverSession = session as ServerSession;
 
-		foreach(int id in despawnPacket.PlayerIds)
+		foreach(int id in despawnPacket.ObjectIds)
         {
 			Managers.Obj.Remove(id);
+			Debug.Log($"Destroy : {id}");
         }
 	}
 	public static void S_MoveHandler(PacketSession session, IMessage packet)
@@ -47,6 +48,8 @@ class PacketHandler
 		ServerSession serverSession = session as ServerSession;
 
 		GameObject go = Managers.Obj.Find(movePacket.ObjectId);
+		if (go == null)
+			return;
 
 		ObjController oc = go.GetComponent<ObjController>();
 
@@ -56,7 +59,38 @@ class PacketHandler
     }
 	public static void S_SkillHandler(PacketSession session, IMessage packet)
 	{
-		S_Skill enterGamePacket = packet as S_Skill;
+		S_Skill skillPacket = packet as S_Skill;
 		ServerSession serverSession = session as ServerSession;
+
+		GameObject go = Managers.Obj.Find(skillPacket.ObjectId);
+		if (go == null)
+			return;
+
+		PlayerController pc = go.GetComponent<PlayerController>();
+		if(pc != null)
+        {
+			pc.UseSkill(skillPacket.Info.SkillId);
+        }
+
+		Debug.Log($"Skill : {skillPacket.Info.SkillId} , {skillPacket.ObjectId}");
+	}
+
+	public static void S_ChangeHpHandler(PacketSession session, IMessage packet)
+	{
+		S_ChangeHp changePacket = packet as S_ChangeHp;
+		ServerSession serverSession = session as ServerSession;
+
+		GameObject go = Managers.Obj.Find(changePacket.ObjectId);
+		if (go == null)
+			return;
+
+		ObjController oc = go.GetComponent<ObjController>();
+		if (oc != null)
+        {
+			oc.Stat.Hp = changePacket.Hp;
+
+			Debug.Log($"{go.name}'s Hp : {changePacket.Hp}");
+        }
+
 	}
 }

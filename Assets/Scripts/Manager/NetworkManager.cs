@@ -30,7 +30,7 @@ public class NetworkManager
 	public void Init()
 	{
 		// DNS (Domain Name System)
-		string host = Dns.GetHostName();
+		string host = "DESKTOP-AI2VP3A";
 		IPHostEntry ipHost = Dns.GetHostEntry(host);
 		IPAddress ipAddr = ipHost.AddressList[0];
 		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);

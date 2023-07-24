@@ -56,9 +56,10 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Packet\Protocol.cs" />
     <Compile Include="Assets\Scripts\Manager\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\ServerCore\RecvBuffer.cs" />
-    <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Controller\MyPlayerController.cs" />
     <Compile Include="Assets\Scripts\ServerSession.cs" />
     <Compile Include="Assets\Scripts\Manager\ObjManager.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketQueue.cs" />
@@ -67,9 +68,10 @@
     <Compile Include="Assets\Scripts\ServerCore\Session.cs" />
     <Compile Include="Assets\Scripts\ServerCore\Connector.cs" />
     <Compile Include="Assets\Scripts\Manager\Managers.cs" />
+    <Compile Include="Assets\Scripts\Controller\ProjectileController.cs" />
     <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
     <Compile Include="Assets\Scripts\Manager\MapManager.cs" />
-    <Compile Include="Assets\Scripts\Packet\Protocol.cs" />
+    <Compile Include="Assets\Scripts\Controller\PlayerController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

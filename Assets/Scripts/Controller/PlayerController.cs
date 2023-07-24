@@ -1,144 +1,38 @@
-using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Google.Protobuf.Protocol;
 
 public class PlayerController : ObjController
 {
-    bool _moveKeyPressed = false;
-    protected override void CUpdate()
+    protected Coroutine _coSkill;
+
+    protected override void Init()
     {
-        UpdateInput();
-        base.CUpdate();
+        base.Init();
     }
 
-    void LateUpdate()
+    public void UseSkill(int skillId)
     {
-        Camera.main.transform.position = new Vector3(transform.position.x, 10, transform.position.z - 10);
-    }
-
-    protected override void UpdateIdle()
-    {
-        if(_moveKeyPressed)
+        if(skillId == 1)
         {
-            State = State.Moving;
-            return;
+
+        }
+        else if(skillId == 2)
+        {
+            _coSkill = StartCoroutine("CoSkill2");
         }
     }
-    protected override void UpdateDir()
+    protected virtual void SendPacket()
     {
-        if (_moveKeyPressed == false)
-        {
-            State = State.Idle;
-            SendPacket();
-            return;
-        }
-        Vector3Int desPos = Pos;
 
-        switch (Dir)
-        {
-            case Dir.Up:
-                desPos += new Vector3Int(0, 0, 1);
-                break;
-            case Dir.Down:
-                desPos += new Vector3Int(0, 0, -1);
-                break;
-            case Dir.Right:
-                desPos += new Vector3Int(1, 0, 0);
-                break;
-            case Dir.Left:
-                desPos += new Vector3Int(-1, 0, 0);
-                break;
-            case Dir.Upright:
-                desPos += new Vector3Int(1, 0, 1);
-                break;
-            case Dir.Upleft:
-                desPos += new Vector3Int(-1, 0, 1);
-                break;
-            case Dir.Downright:
-                desPos += new Vector3Int(1, 0, -1);
-                break;
-            case Dir.Downleft:
-                desPos += new Vector3Int(-1, 0, -1);
-                break;
-        }
-
-        if (Managers.Map.setPos(desPos, Id))
-        {
-            Pos = desPos;
-            SendPacket();
-        }
     }
-    void SendPacket()
+    IEnumerator CoSkill2()
     {
-        if (_updated)
-        {
-            C_Move move = new C_Move();
-            move.PosInfo = new PosInfo()
-            {
-                Dir = Dir,
-                State = State,
-                PosX = Pos.x,
-                PosY = Pos.z
-            };
-
-            Managers.Network.Send(move);
-            _updated = false;
-        }
-    }
-    void UpdateInput()
-    {
-        _moveKeyPressed = true;
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            Dir = Dir.Up;
-            if (Input.GetKey(KeyCode.RightArrow)){
-                Dir = Dir.Upright;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow)){
-                Dir = Dir.Upleft;
-            }
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            Dir = Dir.Down;
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                Dir = Dir.Downright;
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                Dir = Dir.Downleft;
-            }
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            Dir = Dir.Right;
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                Dir = Dir.Upright;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                Dir = Dir.Downright;
-            }
-        }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            Dir = Dir.Left;
-            if (Input.GetKey(KeyCode.UpArrow))
-            {
-                Dir = Dir.Upleft;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                Dir = Dir.Downleft;
-            }
-        }
-        else
-        {
-            _moveKeyPressed = false;
-        }
+        State = State.Skill;
+        yield return new WaitForSeconds(0.5f);
+        State = State.Idle;
+        _coSkill = null;
+        SendPacket();
     }
 }

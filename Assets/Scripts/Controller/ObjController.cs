@@ -6,6 +6,18 @@ using UnityEngine;
 public class ObjController : MonoBehaviour
 {
     public int Id { get; set; }
+    StatInfo _stat = new StatInfo();
+    public StatInfo Stat
+    {
+        get { return _stat; }
+        set { 
+            if (_stat.Equals(value))
+                return;
+
+            _stat = value;
+        }
+    }
+    public float Speed { get { return Stat.Speed; }set { Stat.Speed = value; } }
 
     PosInfo _posInfo = new PosInfo(); 
     protected bool _updated = false;
@@ -57,12 +69,13 @@ public class ObjController : MonoBehaviour
         }
     }
 
+    protected virtual void Init()
+    {
 
-    public float _speed;
-
+    } 
     void Start()
     {
-        
+        Init();
     }
     void Update()
     {
@@ -92,14 +105,14 @@ public class ObjController : MonoBehaviour
     {
         Vector3 dir = Pos - transform.position;
         float dist = dir.magnitude;
-        if (dist < _speed * Time.deltaTime)
+        if (dist < Speed * Time.deltaTime)
         {
             transform.position = Pos;
             UpdateDir();
         }
         else
         {
-            transform.position += _speed * dir.normalized * Time.deltaTime;
+            transform.position += Speed * dir.normalized * Time.deltaTime;
         }
     }
     void UpdateAttack()
