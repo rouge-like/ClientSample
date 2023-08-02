@@ -22,6 +22,8 @@ public class ObjManager
     {
         if (MyPlayer != null && MyPlayer.Id == info.ObjectId)
             return;
+        if (_objs.ContainsKey(info.ObjectId))
+            return;
 
         GameObjectType type = GetObjectTypeById(info.ObjectId);
         if (type == GameObjectType.Player)
@@ -79,6 +81,8 @@ public class ObjManager
     public void Remove(int id)
     {
         if (MyPlayer != null && MyPlayer.Id == id)
+            return;
+        if (_objs.ContainsKey(id) == false)
             return;
 
         GameObject go = null;
