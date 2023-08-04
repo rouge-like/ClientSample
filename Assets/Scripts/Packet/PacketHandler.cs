@@ -86,11 +86,17 @@ class PacketHandler
 
 		ObjController oc = go.GetComponent<ObjController>();
 		if (oc != null)
-        {
+		{
 			oc.Stat.Hp = changePacket.Hp;
 
 			Debug.Log($"{go.name}'s Hp : {changePacket.Hp}");
-        }
+		}
 
+	}
+	public static void S_PingHandler(PacketSession session, IMessage packet)
+	{
+		C_Pong pongPakcet = new C_Pong();
+		Debug.Log("Ping Check");
+		Managers.Network.Send(pongPakcet);
 	}
 }

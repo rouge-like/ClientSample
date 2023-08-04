@@ -30,9 +30,9 @@ public class NetworkManager
 	public void Init()
 	{
 		// DNS (Domain Name System)
-		string host = "DESKTOP-AI2VP3A";
-		IPHostEntry ipHost = Dns.GetHostEntry(host);
-		IPAddress ipAddr = ipHost.AddressList[0];
+		//string host = "	DESKTOP-HUVHG63";
+		//IPHostEntry ipHost = Dns.GetHostEntry(host);
+		IPAddress ipAddr = IPAddress.Parse("192.168.1.251");
 		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
 		Connector connector = new Connector();

@@ -90,6 +90,8 @@ public class ObjManager
         Object.Destroy(go);
 
         _objs.Remove(id);
+
+        Managers.Map.Remove(id);
     }
 
     public GameObject Find(int id)

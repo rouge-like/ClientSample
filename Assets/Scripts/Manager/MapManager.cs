@@ -1,6 +1,8 @@
 using Google.Protobuf.Protocol;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class MapManager
@@ -12,16 +14,37 @@ public class MapManager
     public int[,] Map { get { return _map; } } 
 
     public void Init()
-    {
-        _lenX = 100;
-        _lenY = 200;
+    {        
+        TextAsset txt = Resources.Load("map") as TextAsset;
+        StringReader reader = new StringReader(txt.text);
+        _lenX = int.Parse(reader.ReadLine());
+        _lenY = int.Parse(reader.ReadLine());
         _map = new int[_lenX, _lenY];
+        for (int y = 0; y < _lenY; y++)
+        {
+            string line = reader.ReadLine();
+            for (int x = 0; x < _lenX; x++)
+            {
+                _map[x, y] = (int)Char.GetNumericValue(line[x]);
+                if (_map[x, y] == 1)
+                {
+                    GameObject go = Resources.Load<GameObject>("tree");
+                    go = UnityEngine.Object.Instantiate(go);
+                    go.transform.position = new Vector3Int(x,0,y);
+                }
+            }
+        }
 
         _objs = new Dictionary<int, Vector3Int>();
     }
     public void Add(Vector3Int pos, int id)
     {
         _objs.Add(id, pos);
+    }
+
+    public void Remove(int id)
+    {
+        _objs.Remove(id);
     }
     public bool setPos(Vector3Int pos, int id)
     {
