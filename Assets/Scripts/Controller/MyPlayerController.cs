@@ -23,7 +23,7 @@ public class MyPlayerController : PlayerController
 
     void LateUpdate()
     {
-        Camera.main.transform.position = new Vector3(transform.position.x, 10, transform.position.z - 10);
+        Camera.main.transform.position = new Vector3(transform.position.x, 5, transform.position.z - 4);
     }
 
     protected override void UpdateIdle()
@@ -88,7 +88,7 @@ public class MyPlayerController : PlayerController
                 desPos += new Vector3Int(-1, 0, -1);
                 break;
         }
-
+        
         if (Managers.Map.setPos(desPos, Id))
         {
             Pos = desPos;

@@ -14,10 +14,11 @@ public class ObjController : MonoBehaviour
             if (_stat.Equals(value))
                 return;
 
-            _stat = value;
+            _stat.MergeFrom(value);
         }
     }
-    public float Speed { get { return Stat.Speed; }set { Stat.Speed = value; } }
+    public float Speed { get { return Stat.Speed; } set { Stat.Speed = value; } }
+    public virtual int Hp { get { return Stat.Hp; } set { Stat.Hp = value; } }
 
     PosInfo _posInfo = new PosInfo(); 
     protected bool _updated = false;
@@ -28,7 +29,9 @@ public class ObjController : MonoBehaviour
         {
             if (_posInfo.Equals(value))
                 return;
-            _posInfo = value;
+            Pos = new Vector3Int(value.PosX, 0, value.PosY);
+            State = value.State;
+            Dir = value.Dir;
         }
     }
     public Vector3Int Pos {
@@ -40,7 +43,7 @@ public class ObjController : MonoBehaviour
         {
             PosInfo.PosX = value.x;
             PosInfo.PosY = value.z;
-
+            UpdateAnim();
             _updated = true;
         }
     }
@@ -52,7 +55,7 @@ public class ObjController : MonoBehaviour
             if (PosInfo.Dir == value)
                 return;
             PosInfo.Dir = value;
-
+            UpdateAnim();
             _updated = true;
         }
     }
@@ -64,14 +67,68 @@ public class ObjController : MonoBehaviour
             if (PosInfo.State == value)
                 return;
             PosInfo.State = value;
-
+            UpdateAnim();
             _updated = true;
+        }
+    }
+
+    protected Animator _animator;
+    protected virtual void UpdateAnim()
+    {
+        if (_animator == null)
+            return;
+
+        if(State == State.Idle)
+        {
+            switch (Dir)
+            {
+                case Dir.Up:
+                    break;
+                case Dir.Down:
+                    break;
+                case Dir.Right:
+                    break;
+                case Dir.Left:
+                    break;
+                case Dir.Upright:
+                    break;
+                case Dir.Upleft:
+                    break;
+                case Dir.Downright:
+                    break;
+                case Dir.Downleft:
+                    break;
+            }
+            _animator.CrossFade("IDLE", 0.1f);
+        }
+        else if(State == State.Moving)
+        {
+            switch (Dir)
+            {
+                case Dir.Up:
+                    break;
+                case Dir.Down:
+                    break;
+                case Dir.Right:
+                    break;
+                case Dir.Left:
+                    break;
+                case Dir.Upright:
+                    break;
+                case Dir.Upleft:
+                    break;
+                case Dir.Downright:
+                    break;
+                case Dir.Downleft:
+                    break;
+            }
+            _animator.CrossFade("RUN", 0.1f);
         }
     }
 
     protected virtual void Init()
     {
-
+        _animator = GetComponent<Animator>();
     } 
     void Start()
     {
@@ -101,7 +158,7 @@ public class ObjController : MonoBehaviour
 
     }
 
-    void UpdateMoving()
+    protected virtual void UpdateMoving()
     {
         Vector3 dir = Pos - transform.position;
         float dist = dir.magnitude;
@@ -113,6 +170,7 @@ public class ObjController : MonoBehaviour
         else
         {
             transform.position += Speed * dir.normalized * Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
     }
     void UpdateAttack()

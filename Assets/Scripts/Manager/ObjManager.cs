@@ -30,9 +30,12 @@ public class ObjManager
         {
             if (myPlayer)
             {
-                GameObject go = Resources.Load<GameObject>("MyCube");
+                GameObject go = Resources.Load<GameObject>("MyPlayer");
+                GameObject particle = Resources.Load<GameObject>("ParticleFire");
                 go = Object.Instantiate(go);
+                particle = Object.Instantiate(particle);
                 go.name = info.Name;
+                particle.name = info.Name + "_fire";
 
                 _objs.Add(info.ObjectId, go);
 
@@ -40,10 +43,13 @@ public class ObjManager
                 MyPlayer.Id = info.ObjectId;
                 MyPlayer.PosInfo = info.PosInfo;
                 MyPlayer.Stat = info.StatInfo;
+
+                ParticleController pc = particle.GetComponent<ParticleController>();
+                pc._parentGo = go;
             }
             else
             {
-                GameObject go = Resources.Load<GameObject>("Cube");
+                GameObject go = Resources.Load<GameObject>("Player");
                 go = Object.Instantiate(go);
                 go.name = info.Name;
 

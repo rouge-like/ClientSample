@@ -26,4 +26,19 @@ public class ProjectileController : ObjController
         base.Init();
     }
 
+    protected override void UpdateMoving()
+    {
+        Vector3 dir = Pos - transform.position;
+        float dist = dir.magnitude;
+        if (dist < Speed * Time.deltaTime)
+        {
+            transform.position = Pos;
+            UpdateDir();
+        }
+        else
+        {
+            transform.position += Speed * dir.normalized * Time.deltaTime;
+        }
+    }
+
 }
