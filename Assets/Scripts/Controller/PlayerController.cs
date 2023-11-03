@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,7 +49,6 @@ public class PlayerController : ObjController
         base.UpdateAnim();
         if (State == State.Skill)
             _animator.CrossFade("ATTACK", 0.1f);
-
     }
 
     public void UseSkill(int skillId)
@@ -62,15 +62,26 @@ public class PlayerController : ObjController
             _coSkill = StartCoroutine("CoSkill2");
         }
     }
+
     protected virtual void SendPacket()
     {
 
     }
+
+    protected override void UpdateDead()
+    {
+            
+    }
+
     IEnumerator CoSkill2()
     {
         State = State.Skill;
         yield return new WaitForSeconds(0.5f);
-        State = State.Idle;
+
+        if (State == State.Skill)
+            State = State.Idle;
+        else if (State == State.Dead)
+            Debug.Log("DEAD CALL");
         _coSkill = null;
         SendPacket();
     }

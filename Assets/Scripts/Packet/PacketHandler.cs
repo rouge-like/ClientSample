@@ -19,7 +19,6 @@ class PacketHandler
 		S_LeaveGame leaveGamePacket = packet as S_LeaveGame;
 		ServerSession serverSession = session as ServerSession;
 
-		//Debug.Log($"");
 	}
 	public static void S_SpawnHandler(PacketSession session, IMessage packet)
 	{
@@ -39,7 +38,7 @@ class PacketHandler
 		foreach(int id in despawnPacket.ObjectIds)
         {
 			Managers.Obj.Remove(id);
-			Debug.Log($"Destroy : {id}");
+			//Debug.Log($"Destroy : {id}");
         }
 	}
 	public static void S_MoveHandler(PacketSession session, IMessage packet)
@@ -55,7 +54,7 @@ class PacketHandler
 
 		oc.PosInfo = movePacket.PosInfo;
 
-		Debug.Log($"{movePacket.ObjectId} : {oc.PosInfo} , {movePacket.PosInfo}");
+		//Debug.Log($"{movePacket.ObjectId} : {oc.PosInfo} , {movePacket.PosInfo}");
     }
 	public static void S_SkillHandler(PacketSession session, IMessage packet)
 	{
@@ -69,10 +68,12 @@ class PacketHandler
 		PlayerController pc = go.GetComponent<PlayerController>();
 		if(pc != null)
         {
+			if (pc.State == State.Dead)
+				Debug.Log("Bug Call");
 			pc.UseSkill(skillPacket.Info.SkillId);
         }
 
-		Debug.Log($"Skill : {skillPacket.Info.SkillId} , {skillPacket.ObjectId}");
+		//Debug.Log($"Skill : {skillPacket.Info.SkillId} , {skillPacket.ObjectId}");
 	}
 
 	public static void S_ChangeHpHandler(PacketSession session, IMessage packet)
@@ -99,4 +100,57 @@ class PacketHandler
 		Debug.Log("Ping Check");
 		Managers.Network.Send(pongPakcet);
 	}
+	public static void S_DieHandler(PacketSession session, IMessage packet)
+	{
+		S_Die die = (S_Die)packet;
+
+		GameObject player = Managers.Obj.Find(die.ObjectId);
+
+		PlayerController pc = player.GetComponent<PlayerController>();
+		pc.State = State.Dead;
+    }
+	public static void S_MoveFloatHandler(PacketSession session, IMessage packet)
+	{
+		S_MoveFloat s_move = (S_MoveFloat)packet;
+		ServerSession serverSession = session as ServerSession;
+
+		GameObject go = Managers.Obj.Find(s_move.ObjectId);
+		if (go == null)
+			return;
+		TrigonController tc = go.GetComponent<TrigonController>();
+		tc.Degree = s_move.Degree;
+		if(tc.Speed < 0 && s_move.Dir)
+		{
+			tc.Speed = tc.Speed * -1;
+		}
+		else if(tc.Speed > 0 && !s_move.Dir)
+		{
+            tc.Speed = tc.Speed * -1;
+        }
+
+	}
+
+	public static void S_HitTrigonHandler(PacketSession session, IMessage packet)
+	{
+		S_HitTrigon hitTrigon = (S_HitTrigon)packet;
+
+		GameObject go1 = Managers.Obj.Find(hitTrigon.Trigon1Id);
+
+		if (go1 != null)
+		{
+            TrigonController tc1 = go1.GetComponent<TrigonController>();
+			tc1.Hit();
+        }
+        GameObject go2 = Managers.Obj.Find(hitTrigon.Trigon2Id);
+		if (go2 != null)
+		{
+            TrigonController tc2 = go2.GetComponent<TrigonController>();
+			tc2.Hit();
+        }
+    }
+	public static void S_EquipHandler(PacketSession session, IMessage packet)
+	{
+		S_Equip equip = (S_Equip)packet;
+
+    }
 }

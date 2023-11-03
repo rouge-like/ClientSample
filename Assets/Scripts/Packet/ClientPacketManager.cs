@@ -27,16 +27,22 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SSpawn, PacketHandler.S_SpawnHandler);		
 		_onRecv.Add((ushort)MsgId.SDespawn, MakePacket<S_Despawn>);
 		_handler.Add((ushort)MsgId.SDespawn, PacketHandler.S_DespawnHandler);		
+		_onRecv.Add((ushort)MsgId.SPing, MakePacket<S_Ping>);
+		_handler.Add((ushort)MsgId.SPing, PacketHandler.S_PingHandler);		
 		_onRecv.Add((ushort)MsgId.SMove, MakePacket<S_Move>);
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.SSkill, MakePacket<S_Skill>);
 		_handler.Add((ushort)MsgId.SSkill, PacketHandler.S_SkillHandler);		
 		_onRecv.Add((ushort)MsgId.SChangeHp, MakePacket<S_ChangeHp>);
 		_handler.Add((ushort)MsgId.SChangeHp, PacketHandler.S_ChangeHpHandler);		
+		_onRecv.Add((ushort)MsgId.SMoveFloat, MakePacket<S_MoveFloat>);
+		_handler.Add((ushort)MsgId.SMoveFloat, PacketHandler.S_MoveFloatHandler);		
 		_onRecv.Add((ushort)MsgId.SDie, MakePacket<S_Die>);
 		_handler.Add((ushort)MsgId.SDie, PacketHandler.S_DieHandler);		
-		_onRecv.Add((ushort)MsgId.SPing, MakePacket<S_Ping>);
-		_handler.Add((ushort)MsgId.SPing, PacketHandler.S_PingHandler);
+		_onRecv.Add((ushort)MsgId.SHitTrigon, MakePacket<S_HitTrigon>);
+		_handler.Add((ushort)MsgId.SHitTrigon, PacketHandler.S_HitTrigonHandler);		
+		_onRecv.Add((ushort)MsgId.SEquip, MakePacket<S_Equip>);
+		_handler.Add((ushort)MsgId.SEquip, PacketHandler.S_EquipHandler);
 	}
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)
 	{

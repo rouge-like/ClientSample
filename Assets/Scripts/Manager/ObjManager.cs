@@ -1,6 +1,7 @@
 using Google.Protobuf.Protocol;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ObjManager
@@ -10,7 +11,7 @@ public class ObjManager
 
     public void Init()
     {
-
+        
     }
     public static GameObjectType GetObjectTypeById(int id)
     {
@@ -21,7 +22,11 @@ public class ObjManager
     public void Add(ObjectInfo info, bool myPlayer = false)
     {
         if (MyPlayer != null && MyPlayer.Id == info.ObjectId)
+        {
+            MyPlayer.PosInfo = info.PosInfo;
+            MyPlayer.Stat = info.StatInfo;
             return;
+        }     
         if (_objs.ContainsKey(info.ObjectId))
             return;
 
@@ -31,21 +36,14 @@ public class ObjManager
             if (myPlayer)
             {
                 GameObject go = Resources.Load<GameObject>("MyPlayer");
-                GameObject particle = Resources.Load<GameObject>("ParticleFire");
                 go = Object.Instantiate(go);
-                particle = Object.Instantiate(particle);
                 go.name = info.Name;
-                particle.name = info.Name + "_fire";
-
                 _objs.Add(info.ObjectId, go);
 
                 MyPlayer = go.GetComponent<MyPlayerController>();
                 MyPlayer.Id = info.ObjectId;
                 MyPlayer.PosInfo = info.PosInfo;
                 MyPlayer.Stat = info.StatInfo;
-
-                ParticleController pc = particle.GetComponent<ParticleController>();
-                pc._parentGo = go;
             }
             else
             {
@@ -75,6 +73,46 @@ public class ObjManager
             pc.PosInfo = info.PosInfo;
             pc.Stat = info.StatInfo;
             go.transform.position = pc.Pos;
+        }
+        else if(type == GameObjectType.Trigon)
+        {
+            GameObject go = Resources.Load<GameObject>("Trigon");
+            GameObject player = Managers.Obj.Find(int.Parse(info.Name));
+
+            if (player == null)
+                return;
+
+            go = Object.Instantiate(go);
+            go.transform.parent = player.transform;
+
+            _objs.Add(info.ObjectId, go);
+
+            GameObject stick = Resources.Load<GameObject>("Stick");
+            stick = Object.Instantiate(stick);
+            stick.name = $"Stick_{info.ObjectId}";
+
+            TrigonController tc = go.GetComponent<TrigonController>();
+            tc.Id = info.ObjectId;
+            tc.Stick = stick.transform;
+            tc.Center = player.transform;
+            if (info.StatInfo.Speed > 0)
+                tc.Speed = info.StatInfo.Speed * 10;
+            else
+                tc.Speed = info.StatInfo.Speed * -10;
+            tc.gameObject.name = $"Trigon_{tc.Id}";
+        }
+        else if(type == GameObjectType.Item)
+        {
+            GameObject go = Resources.Load<GameObject>("Cube");
+            go = Object.Instantiate(go);
+
+            _objs.Add(info.ObjectId, go);
+
+            ItemController ic = go.GetComponent<ItemController>();
+            ic.Id = info.ObjectId;
+            ic.PosInfo = info.PosInfo;
+            ic.Stat = info.StatInfo;
+            ic.transform.position = ic.Pos;
         }
 
         Managers.Map.Add(new Vector3Int(info.PosInfo.PosX, 0, info.PosInfo.PosY), info.ObjectId);

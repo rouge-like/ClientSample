@@ -124,11 +124,18 @@ public class ObjController : MonoBehaviour
             }
             _animator.CrossFade("RUN", 0.1f);
         }
+        else if(State == State.Dead)
+        {
+            _animator.CrossFade("ONDEAD", 0.1f);
+        }
     }
 
     protected virtual void Init()
     {
         _animator = GetComponent<Animator>();
+
+        if(_animator == null)
+            _animator = GetComponentInChildren<Animator>();
     } 
     void Start()
     {
@@ -149,7 +156,9 @@ public class ObjController : MonoBehaviour
             case State.Moving:
                 UpdateMoving();
                 break;
-            //
+            case State.Dead:
+                UpdateDead();
+                break;
         }
     }
     protected virtual void UpdateIdle() { }
@@ -173,7 +182,7 @@ public class ObjController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
     }
-    void UpdateAttack()
+    protected virtual void UpdateDead()
     {
 
     }

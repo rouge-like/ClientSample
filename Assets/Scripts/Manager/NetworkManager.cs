@@ -30,10 +30,10 @@ public class NetworkManager
 	public void Init()
 	{
 		// DNS (Domain Name System)
-		//string host = "	DESKTOP-HUVHG63";
+		//string host = "DESKTOP-HUVHG63";
 		//IPHostEntry ipHost = Dns.GetHostEntry(host);
-		IPAddress ipAddr = IPAddress.Parse("192.168.1.251");
-		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+		IPAddress ipAddr = IPAddress.Parse("192.168.51.61");  // 172.20.10.6 Iphone 192.168.51.61 
+        IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
 		Connector connector = new Connector();
 

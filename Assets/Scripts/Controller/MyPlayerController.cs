@@ -23,7 +23,7 @@ public class MyPlayerController : PlayerController
 
     void LateUpdate()
     {
-        Camera.main.transform.position = new Vector3(transform.position.x, 5, transform.position.z - 4);
+        Camera.main.transform.position = new Vector3(transform.position.x, 10, transform.position.z - 8);
     }
 
     protected override void UpdateIdle()
@@ -36,7 +36,7 @@ public class MyPlayerController : PlayerController
 
         if(_coSkill == null & Input.GetKey(KeyCode.Space))
         {
-            Debug.Log("Skill");
+            //Debug.Log("Skill");
 
             C_Skill skillPacket = new C_Skill() { Info = new SkillInfo() };
             skillPacket.Info.SkillId = 2;
@@ -53,6 +53,7 @@ public class MyPlayerController : PlayerController
     }
     protected override void UpdateDir()
     {
+        
         if (_moveKeyPressed == false)
         {
             State = State.Idle;
@@ -88,12 +89,15 @@ public class MyPlayerController : PlayerController
                 desPos += new Vector3Int(-1, 0, -1);
                 break;
         }
-        
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desPos - transform.position), 20 * Time.deltaTime);
+
         if (Managers.Map.setPos(desPos, Id))
         {
             Pos = desPos;
             SendPacket();
         }
+
     }
     protected override void SendPacket()
     {
