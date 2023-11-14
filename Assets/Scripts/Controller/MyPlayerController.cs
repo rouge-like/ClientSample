@@ -5,7 +5,14 @@ using UnityEngine;
 
 public class MyPlayerController : PlayerController
 {
+    [SerializeField]
     bool _moveKeyPressed = false;
+    Vector2Int _desPos;
+    public void MapUpdated()
+    {
+        Debug.Log("Update");
+        _updated = true;
+    }
     protected override void CUpdate()
     {
         switch (State)
@@ -91,13 +98,8 @@ public class MyPlayerController : PlayerController
         }
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desPos - transform.position), 20 * Time.deltaTime);
-
-        if (Managers.Map.setPos(desPos, Id))
-        {
-            Pos = desPos;
-            SendPacket();
-        }
-
+        _desPos = new Vector2Int(desPos.x, desPos.z);
+        SendPacket();
     }
     protected override void SendPacket()
     {
@@ -108,8 +110,8 @@ public class MyPlayerController : PlayerController
             {
                 Dir = Dir,
                 State = State,
-                PosX = Pos.x,
-                PosY = Pos.z
+                PosX = _desPos.x,
+                PosY = _desPos.y
             };
 
             Managers.Network.Send(move);

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6437753492702341479}
   - component: {fileID: 7835133794829176750}
   - component: {fileID: 8229142940182384727}
-  - component: {fileID: 5229203672081315147}
   - component: {fileID: -5317385035601924100}
   m_Layer: 0
   m_Name: Trigon
@@ -85,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5229203672081315147
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496197478329004767}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-5317385035601924100
 MonoBehaviour:
   m_ObjectHideFlags: 0

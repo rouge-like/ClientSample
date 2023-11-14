@@ -20,7 +20,8 @@ public class ObjController : MonoBehaviour
     public float Speed { get { return Stat.Speed; } set { Stat.Speed = value; } }
     public virtual int Hp { get { return Stat.Hp; } set { Stat.Hp = value; } }
 
-    PosInfo _posInfo = new PosInfo(); 
+    PosInfo _posInfo = new PosInfo();
+    [SerializeField]
     protected bool _updated = false;
     public PosInfo PosInfo
     {
@@ -31,6 +32,7 @@ public class ObjController : MonoBehaviour
                 return;
             Pos = new Vector3Int(value.PosX, 0, value.PosY);
             State = value.State;
+            _state = value.State;
             Dir = value.Dir;
         }
     }
@@ -41,10 +43,13 @@ public class ObjController : MonoBehaviour
         }
         set
         {
+            if (PosInfo.PosX == value.x && PosInfo.PosY == value.z)
+                return;
             PosInfo.PosX = value.x;
             PosInfo.PosY = value.z;
             UpdateAnim();
             _updated = true;
+            Debug.Log("Updated By Pos");
         }
     }
     public Dir Dir
@@ -57,8 +62,10 @@ public class ObjController : MonoBehaviour
             PosInfo.Dir = value;
             UpdateAnim();
             _updated = true;
+            Debug.Log("Updated By Dir");
         }
     }
+    public State _state;
     public State State
     {
         get { return PosInfo.State; }
@@ -67,8 +74,10 @@ public class ObjController : MonoBehaviour
             if (PosInfo.State == value)
                 return;
             PosInfo.State = value;
+            _state = value;
             UpdateAnim();
             _updated = true;
+            Debug.Log("Updated By State");
         }
     }
 
@@ -78,66 +87,31 @@ public class ObjController : MonoBehaviour
         if (_animator == null)
             return;
 
-        if(State == State.Idle)
+        if (State == State.Idle)
         {
-            switch (Dir)
-            {
-                case Dir.Up:
-                    break;
-                case Dir.Down:
-                    break;
-                case Dir.Right:
-                    break;
-                case Dir.Left:
-                    break;
-                case Dir.Upright:
-                    break;
-                case Dir.Upleft:
-                    break;
-                case Dir.Downright:
-                    break;
-                case Dir.Downleft:
-                    break;
-            }
             _animator.CrossFade("IDLE", 0.1f);
         }
         else if(State == State.Moving)
         {
-            switch (Dir)
-            {
-                case Dir.Up:
-                    break;
-                case Dir.Down:
-                    break;
-                case Dir.Right:
-                    break;
-                case Dir.Left:
-                    break;
-                case Dir.Upright:
-                    break;
-                case Dir.Upleft:
-                    break;
-                case Dir.Downright:
-                    break;
-                case Dir.Downleft:
-                    break;
-            }
             _animator.CrossFade("RUN", 0.1f);
         }
         else if(State == State.Dead)
         {
             _animator.CrossFade("ONDEAD", 0.1f);
         }
+        else if(State == State.Skill)
+        {
+            _animator.CrossFade("ATTACK", 0.1f);
+        }
     }
 
     protected virtual void Init()
     {
         _animator = GetComponent<Animator>();
-
         if(_animator == null)
             _animator = GetComponentInChildren<Animator>();
-    } 
-    void Start()
+    }
+    void OnEnable()
     {
         Init();
     }
@@ -160,6 +134,35 @@ public class ObjController : MonoBehaviour
                 UpdateDead();
                 break;
         }
+        Vector3Int desPos = Pos;
+        switch (Dir)
+        {
+            case Dir.Up:
+                desPos += new Vector3Int(0, 0, 1);
+                break;
+            case Dir.Down:
+                desPos += new Vector3Int(0, 0, -1);
+                break;
+            case Dir.Right:
+                desPos += new Vector3Int(1, 0, 0);
+                break;
+            case Dir.Left:
+                desPos += new Vector3Int(-1, 0, 0);
+                break;
+            case Dir.Upright:
+                desPos += new Vector3Int(1, 0, 1);
+                break;
+            case Dir.Upleft:
+                desPos += new Vector3Int(-1, 0, 1);
+                break;
+            case Dir.Downright:
+                desPos += new Vector3Int(1, 0, -1);
+                break;
+            case Dir.Downleft:
+                desPos += new Vector3Int(-1, 0, -1);
+                break;
+        }
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desPos - transform.position), 20 * Time.deltaTime);
     }
     protected virtual void UpdateIdle() { }
     protected virtual void UpdateDir()
@@ -179,11 +182,17 @@ public class ObjController : MonoBehaviour
         else
         {
             transform.position += Speed * dir.normalized * Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
         }
     }
     protected virtual void UpdateDead()
     {
 
     }
+    public virtual void OnDamaged()
+    {
+        GameObject go = Managers.Resource.Instantiate("Slice");
+        go.transform.position = transform.position + new Vector3(0, 0.5f, 0);
+    }
+
 }

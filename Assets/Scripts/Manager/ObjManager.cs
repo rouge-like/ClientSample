@@ -28,7 +28,18 @@ public class ObjManager
             return;
         }     
         if (_objs.ContainsKey(info.ObjectId))
+        {
+            GameObject go = _objs[info.ObjectId];
+            if(GetObjectTypeById(info.ObjectId) == GameObjectType.Player)
+            {
+                PlayerController pc = go.GetComponent<PlayerController>();
+                pc.PosInfo = info.PosInfo;
+                pc.Stat = info.StatInfo;
+            }
+
             return;
+        }
+
 
         GameObjectType type = GetObjectTypeById(info.ObjectId);
         if (type == GameObjectType.Player)
@@ -114,7 +125,20 @@ public class ObjManager
             ic.Stat = info.StatInfo;
             ic.transform.position = ic.Pos;
         }
+        else if(type == GameObjectType.Monster)
+        {
+            GameObject go = Resources.Load<GameObject>("Monster");
+            go = Object.Instantiate(go);
+            go.name = info.Name;
 
+            _objs.Add(info.ObjectId, go);
+
+            MonsterController mc = go.GetComponent<MonsterController>();
+            mc.Id = info.ObjectId;
+            mc.PosInfo = info.PosInfo;
+            mc.Stat = info.StatInfo;
+            go.transform.position = mc.Pos;
+        }
         Managers.Map.Add(new Vector3Int(info.PosInfo.PosX, 0, info.PosInfo.PosY), info.ObjectId);
     }
     public void Add(GameObject go, int id)
@@ -136,6 +160,7 @@ public class ObjManager
         _objs.Remove(id);
 
         Managers.Map.Remove(id);
+        Debug.Log($"Despawn {go.name} , {id}");
     }
 
     public GameObject Find(int id)

@@ -18,6 +18,7 @@ public class MapManager
     {        
         TextAsset txt = Resources.Load("map") as TextAsset;
         StringReader reader = new StringReader(txt.text);
+        Transform parent = GameObject.Find("Terrain").transform;
         _lenX = int.Parse(reader.ReadLine());
         _lenY = int.Parse(reader.ReadLine());
         _map = new int[_lenX, _lenY];
@@ -32,6 +33,7 @@ public class MapManager
                     GameObject go = Resources.Load<GameObject>("tree");
                     go = UnityEngine.Object.Instantiate(go);
                     go.transform.position = new Vector3Int(x,0,y);
+                    go.transform.parent = parent;
                 }
             }
         }
@@ -47,7 +49,7 @@ public class MapManager
     {
         _objs.Remove(id);
     }
-    public bool setPos(Vector3Int pos, int id)
+    public bool SetPos(Vector3Int pos, int id)
     {
         int x = pos.x;
         int y = pos.z;
@@ -66,7 +68,11 @@ public class MapManager
             return true;
         }
         else
+        {
+            Debug.Log($"Map{_map[x, y]}");
             return false;
+        }
+            
     }
     public void returnPos(int id)
     {

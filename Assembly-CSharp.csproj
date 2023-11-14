@@ -57,15 +57,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/ServerCore/Session.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Scripts/AI/Face.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Scripts/GameManager.cs" />
     <Compile Include="Assets/Scripts/Controller/ItemController.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Cameras/Scripts/FreeLookCam.cs" />
     <Compile Include="Assets/Scripts/Controller/MyPlayerController.cs" />
     <Compile Include="Assets/Scripts/ServerSession.cs" />
     <Compile Include="Assets/Scripts/Controller/ProjectileController.cs" />
     <Compile Include="Assets/Scripts/Controller/TrigonController.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Cameras/Scripts/PivotBasedCameraRig.cs" />
     <Compile Include="Assets/Scripts/Manager/Managers.cs" />
     <Compile Include="Assets/unity-chan!/Unity-chan! Model/SplashScreen/Scripts/SplashScreen.cs" />
-    <Compile Include="Assets/Scripts/Controller/ParticleController.cs" />
+    <Compile Include="Assets/Scripts/Controller/MonsterController.cs" />
     <Compile Include="Assets/Scripts/Packet/PacketHandler.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Cameras/Scripts/AbstractTargetFollower.cs" />
     <Compile Include="Assets/Scripts/ServerCore/RecvBuffer.cs" />
     <Compile Include="Assets/Scripts/Packet/PacketQueue.cs" />
     <Compile Include="Assets/Scripts/test.cs" />
@@ -74,9 +79,16 @@
     <Compile Include="Assets/Scripts/ServerCore/Connector.cs" />
     <Compile Include="Assets/Scripts/Manager/MapManager.cs" />
     <Compile Include="Assets/Scripts/Manager/NetworkManager.cs" />
+    <Compile Include="Assets/Kawaii Slimes/Scripts/AI/EnemyAi.cs" />
     <Compile Include="Assets/Scripts/Controller/ObjController.cs" />
     <Compile Include="Assets/Scripts/Manager/ObjManager.cs" />
     <Compile Include="Assets/Scripts/Packet/Protocol.cs" />
+    <Compile Include="Assets/Scripts/HpBar.cs" />
+    <Compile Include="Assets/Travis Game Assets/Hit Impact Effects/Demo Scene/Scripts/HitImpactEffectsPreview.cs" />
+    <Compile Include="Assets/Scripts/Poolable.cs" />
+    <Compile Include="Assets/Scripts/Manager/PoolManager.cs" />
+    <Compile Include="Assets/Scripts/Manager/ResourceManager.cs" />
+    <Compile Include="Assets/Scripts/Controller/ParticleController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/unity-chan!/Unity-chan! Model/Art/UnityChanShader/Shader/Unitychan_chara_fuku.shader" />
@@ -140,6 +152,7 @@
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/ToonColor_DoubleShadeWithFeather_TransClipping.shader" />
     <None Include="Assets/Libs/Google.Protobuf.dll" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/ToonColor_DoubleShadeWithFeather_TransClipping_StencilMask.shader" />
+    <None Include="Assets/Kawaii Slimes/Cameras/CameraGuidelines.txt" />
     <None Include="Assets/unity-chan!/Unity-chan! Model/Art/UnityChanShader/Shader/Unitychan_chara_fuku_ds.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/ToonColor_DoubleShadeWithFeather.shader" />
     <None Include="Assets/unity-chan!/Unity-chan! Model/Art/UnityChanShader/Shader/Unitychan_chara_eyelash_blend.shader" />
@@ -158,6 +171,7 @@
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_OutlineObject_Tess.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_ShadingGradeMap_AngelRing_Tess_StencilOut.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_ShadingGradeMap_Tess.shader" />
+    <None Include="Assets/Travis Game Assets/Hit Impact Effects/Readme.txt" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/ToonColor_ShadingGradeMap_AngelRing_Tess.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/ToonColor_DoubleShadeWithFeather_Clipping_Tess_StencilMask.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Toon_DoubleShadeWithFeather_Mobile_Clipping.shader" />
@@ -180,6 +194,7 @@
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_DoubleShadeWithFeather_TransClipping_Tess_StencilOut.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_ShadingGradeMap_AngelRing_Tess.shader" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/ToonColor_DoubleShadeWithFeather_TransClipping_Tess_StencilMask.shader" />
+    <None Include="Assets/Kawaii Slimes/Shader/Unity-chan Shader Ver 1.2.1/readme.txt" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Toon_DoubleShadeWithFeather_Clipping_StencilMask.shader" />
     <None Include="Assets/unity-chan!/Unity-chan! Model/Art/UnityChanShader/Shader/Unitychan_chara_hada_blend.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader" />
@@ -205,6 +220,7 @@
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/UCTS_ShadingGradeMap.cginc" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/UCTS_Outline.cginc" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Tess/Toon_ShadingGradeMap_Tess_StencilMask.shader" />
+    <None Include="Assets/Kawaii Slimes/Readme.txt" />
     <None Include="Assets/SD Unity-Chan Haon Custom/Shader/Unity-chan Toon Shader Ver 2.0.6/Toon_DoubleShadeWithFeather_Mobile.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader" />

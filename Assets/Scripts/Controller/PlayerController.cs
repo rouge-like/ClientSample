@@ -44,13 +44,6 @@ public class PlayerController : ObjController
         }
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(desPos - transform.position), 20 * Time.deltaTime);
     }
-    protected override void UpdateAnim()
-    {
-        base.UpdateAnim();
-        if (State == State.Skill)
-            _animator.CrossFade("ATTACK", 0.1f);
-    }
-
     public void UseSkill(int skillId)
     {
         if(skillId == 1)

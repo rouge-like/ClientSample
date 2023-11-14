@@ -10,6 +10,7 @@ public class TrigonController : ObjController
     public float R;
     public float Degree;
     float _randY;
+
     protected override void Init()
     {
         R = 3.0f;
@@ -40,6 +41,9 @@ public class TrigonController : ObjController
         Debug.Log($"Hit");
         Speed *= -1;
         Degree += Time.deltaTime * Speed;
+    }
+    public override void OnDamaged()
+    {
     }
     private void OnDestroy()
     {

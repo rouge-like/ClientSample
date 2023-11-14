@@ -4,16 +4,8 @@ using UnityEngine;
 
 public class ParticleController : MonoBehaviour
 {
-    public GameObject _parentGo;
-    // Start is called before the first frame update
-    void Start()
+    void OnParticleSystemStopped()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.position = _parentGo.transform.position;
+        Managers.Resource.Destroy(gameObject);
     }
 }

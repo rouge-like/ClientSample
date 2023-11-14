@@ -40,7 +40,8 @@ class PacketHandler
 			Managers.Obj.Remove(id);
 			//Debug.Log($"Destroy : {id}");
         }
-	}
+        Managers.Obj.MyPlayer.MapUpdated();
+    }
 	public static void S_MoveHandler(PacketSession session, IMessage packet)
     {
 		S_Move movePacket = packet as S_Move;
@@ -88,9 +89,16 @@ class PacketHandler
 		ObjController oc = go.GetComponent<ObjController>();
 		if (oc != null)
 		{
-			oc.Stat.Hp = changePacket.Hp;
+			if(oc.Stat.Hp > changePacket.Hp)
+                oc.OnDamaged();
+			else
+			{
 
-			Debug.Log($"{go.name}'s Hp : {changePacket.Hp}");
+			}
+
+            oc.Stat.Hp = changePacket.Hp;
+			
+            Debug.Log($"{go.name}'s Hp : {changePacket.Hp}");
 		}
 
 	}
@@ -104,10 +112,10 @@ class PacketHandler
 	{
 		S_Die die = (S_Die)packet;
 
-		GameObject player = Managers.Obj.Find(die.ObjectId);
+		GameObject obj = Managers.Obj.Find(die.ObjectId);
 
-		PlayerController pc = player.GetComponent<PlayerController>();
-		pc.State = State.Dead;
+        ObjController oc = obj.GetComponent<ObjController>();
+		oc.State = State.Dead;
     }
 	public static void S_MoveFloatHandler(PacketSession session, IMessage packet)
 	{
@@ -147,6 +155,8 @@ class PacketHandler
             TrigonController tc2 = go2.GetComponent<TrigonController>();
 			tc2.Hit();
         }
+        GameObject go = Managers.Resource.Instantiate("Hit");
+        go.transform.position = go1.transform.position + new Vector3(0, 0.5f, 0);
     }
 	public static void S_EquipHandler(PacketSession session, IMessage packet)
 	{
